@@ -4,6 +4,6 @@ Feature: Example
   simple example
 
   Scenario: Example
-    Given I visit 'google.com'
-    When I search for 'ducks'
-    Then I should see search results for 'ducks'
+    Given I visit 'https://angularjs.org'
+    When I type in the name 'Andreas'
+    Then I should see the text 'Hello Andreas!'

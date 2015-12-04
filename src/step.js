@@ -1,9 +1,10 @@
-const step = R.curry((steplist, regex, handler) => [...steps,  [regex, handler]]
+import R from 'ramda'
+const step = R.curry((steplist, regex, handler) => steplist.push([regex, handler]))
 
 export default () => {
   const steplist = []
   return {
-    step: step(steplist)
+    step: step(steplist),
     steplist
   }
 }
