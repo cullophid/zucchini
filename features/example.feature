@@ -3,7 +3,13 @@ Feature: Example
 
   simple example
 
-  Scenario: Example
-    Given I visit 'https://angularjs.org'
+  Scenario: Angular
+    Given I visit 'angularjs'
     When I type in the name 'Andreas'
     Then I should see the text 'Hello Andreas!'
+
+
+  Scenario: React
+    Given I visit 'reactjs'
+    When I add todo task 'Hello World!'
+    Then I should see the task 'Hello World!'

@@ -7,7 +7,7 @@ import requireIndex from 'requireIndex'
 import run from './run'
 
 const features = parser('./features')
-const browser = driver({timeout: 5000});
+const browser = driver({timeout: 10000});
 
 const {step, steplist} = stepFactory()
 
@@ -27,10 +27,11 @@ requireIndex(__dirname + '/step_definitions')
 
 
 const success = () => console.log(chalk.green('All Tests Passed'))
-const failure = (err) => {
-  console.log(chalk.red(err))
-  browser.end()
+const failure = async (err) => {
+  console.log(chalk.red('Test failed with error: ',err))
+  await browser.kill()
+  console.log('killed browser');
   process.exit(1)
 }
 run(browser, steplist, features)
-browser.chain(success, failure)
+  .then(success, failure)
