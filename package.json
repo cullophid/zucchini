@@ -2,6 +2,12 @@
   "name": "zucchini",
   "version": "1.0.0",
   "description": "",
+  "bin": {
+    "zucchini": "bin/zucchini.js"
+  },
+  "babel": {
+    "presets": ["es2015", "stage-3"]
+  },
   "main": "index.js",
   "scripts": {
     "build": "babel -d dist src",
@@ -9,7 +15,7 @@
     "selenium:install": "selenium-standalone install",
     "selenium:start": "selenium-standalone start",
     "test": "mocha --compilers js:babel-core/register src/_spec/module.js",
-    "start": "babel-node src/index.js"
+    "start": "(cd example && babel-node ../src/index.js)"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +28,8 @@
   "dependencies": {
     "babel-preset-stage-3": "^6.1.18",
     "chalk": "^1.1.1",
+    "ramda": "^0.18.0",
+    "read-dir": "^0.2.0",
     "requireindex": "^1.1.0",
     "selenium-standalone": "^4.7.2"
   }

@@ -1,3 +1,4 @@
+const {visit, fill, click, assertText, sleep} = browser
 
 When(/^I visit 'angularjs'$/, async () => {
   visit('https://angularjs.org')
@@ -24,5 +25,18 @@ When(/^I add todo task 'Hello World!'$/, async () => {
 
 Then(/^I should see the task 'Hello World!'$/, async () => {
   assertText('.playgroundPreview li', 'Hello World!')
+  sleep(1000)
+})
+
+Given(/^I visit 'google.com'$/, async () => {
+  visit('https://google.com')
+})
+
+When(/^I search for 'stuff'$/, async () => {
+  fill('#lst-ib', 'stuff/n')
+})
+
+Then(/^I should see the task 'Hello World!'$/, async () => {
+  assertText('a[data-href="http://www.stuff.tv/"]', 'Stuff | The best gadget reviews and in-depth tech features')
   sleep(1000)
 })

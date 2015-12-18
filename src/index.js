@@ -1,9 +1,10 @@
 import chalk from 'chalk'
+import path from 'path'
 import R from 'ramda'
-import driver from 'web-test'
+import driver from 'zucchini-webdriver'
 import parser from './parser'
 import stepFactory from './step'
-import requireIndex from 'requireIndex'
+import loadStepDefinitions from './step-definitions'
 import run from './run'
 
 const features = parser('./features')
@@ -16,15 +17,9 @@ global.When = step
 global.Then = step
 global.And = step
 
-global.fill = browser.fill
-global.click = browser.click
-global.getText = browser.getText
-global.visit = browser.visit
-global.assertText = browser.assertText
-global.sleep = browser.sleep
+global.browser = browser
 
-requireIndex(__dirname + '/step_definitions')
-
+loadStepDefinitions(path.join(process.cwd(), '/step_definitions'))
 
 const success = () => console.log(chalk.green('All Tests Passed'))
 const failure = async (err) => {

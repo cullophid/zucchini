@@ -30,7 +30,7 @@ export default async (browser, steplist, features) => {
 
   }
 
-  const runStep = async (step) => {
+  const runStep = (step) => {
     const handler = R.find(([regex]) => R.test(regex, step.text), steplist)
     if (!handler) {
       console.log(chalk.yellow('No handler for ', step.keyword, step.text))
