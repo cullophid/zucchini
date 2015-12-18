@@ -1,12 +1,15 @@
 {
   "name": "zucchini",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "bin": {
     "zucchini": "bin/zucchini.js"
   },
   "babel": {
-    "presets": ["es2015", "stage-3"]
+    "presets": [
+      "es2015",
+      "stage-3"
+    ]
   },
   "main": "index.js",
   "scripts": {
