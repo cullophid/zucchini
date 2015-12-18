@@ -26,7 +26,7 @@ const promiseFunction = () =>
 
 we can write:
 ```js
-When(/^I click on the button&/, async () => {
+const asyncFunction = async () => {
   const foo = await getFoo()
   const bar = await transformFoo(foo)
   return transformBar(foo)
