@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-require('babel-register')({
-  ignore: false,
-  // presets: ['es2015', 'stage-3']
-});
+require('babel-core/register')
+require('babel-polyfill')
 require('../src')

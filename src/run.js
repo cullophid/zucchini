@@ -7,30 +7,27 @@ const log = (key) => (value) => {
 }
 
 const logError = (key) => (value) => {
-  console.error(key, value)
   return Promise.reject(value)
 }
 
-const serial = (f, list) =>
+const serial = (f, list = []) =>
   list.reduce((promise, e) => promise.then(() => f(e)), Promise.resolve())
 
 export default async (browser, steplist, features) => {
 
-  const runFeature = async (feature) => {
-    console.log('Feature: ', feature.name)
-    await serial(runScenario, feature.scenarioDefinitions)
+  const runFeature = async ({feature}) => {
+    await serial(runScenario, feature.children)
   }
 
   const runScenario = async (scenario) => {
-    console.log('  Scenario: ', scenario.name)
-    await browser.init({browserName: 'firefox'})
+    console.log(chalk.green('  Scenario: ', scenario.name))
+    await browser.init({browserName: 'chrome'})
     await serial(runStep, scenario.steps)
     await browser.end()
-    console.log('')
 
   }
 
-  const runStep = (step) => {
+  const runStep = async (step) => {
     const handler = R.find(([regex]) => R.test(regex, step.text), steplist)
     if (!handler) {
       console.log(chalk.yellow('No handler for ', step.keyword, step.text))

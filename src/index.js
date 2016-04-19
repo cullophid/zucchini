@@ -6,22 +6,25 @@ import parser from './parser'
 import stepFactory from './step'
 import loadStepDefinitions from './step-definitions'
 import run from './run'
+const rootDir = path.join(process.cwd(), process.argv[2])
 
-const features = parser('./features')
+
+
+const features = parser(rootDir)
+console.log('features', features)
 const browser = driver({timeout: 10000});
 
 const {step, steplist} = stepFactory()
 
-global.Given = step
-global.When = step
-global.Then = step
-global.And = step
+global.step = step
 
 global.browser = browser
 
-loadStepDefinitions(path.join(process.cwd(), '/step_definitions'))
+loadStepDefinitions(rootDir)
 
-const success = () => console.log(chalk.green('All Tests Passed'))
+const success = () =>
+  console.log(chalk.green('All Tests Passed'))
+
 const failure = async (err) => {
   console.log(chalk.red('Test failed with error: ',err))
   await browser.kill()
