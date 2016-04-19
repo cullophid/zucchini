@@ -1,4 +1,5 @@
 #!/usr/bin/env node
 require('babel-core/register')
 require('babel-polyfill')
-require('../src')
+const run = require('../src/run')
+run.default()

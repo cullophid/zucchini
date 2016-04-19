@@ -1,3 +1,4 @@
+import { browser } from '../../src'
 
 export const visit = async () => {
   await browser.visit('http://localhost:3000')

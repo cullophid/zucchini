@@ -1,43 +1,22 @@
-import R from 'ramda'
 import chalk from 'chalk'
+import {serial} from './helpers'
+import runFeature from './feature'
+import loadFeatures from './load-features'
 
-const log = (key) => (value) => {
-  console.log(key)
-  return value
+const filePattern = process.argv[2]
+
+const success = () =>
+  console.log(chalk.green('\n\nAll Tests Passed'))
+
+const failure = async (err) => {
+  console.log(chalk.red('Test failed with error: ',err))
+  await browser.kill()
+  console.log('killed browser');
+  process.exit(1)
 }
 
-const logError = (key) => (value) => {
-  return Promise.reject(value)
-}
-
-const serial = (f, list = []) =>
-  list.reduce((promise, e) => promise.then(() => f(e)), Promise.resolve())
-
-export default async (browser, steplist, features) => {
-
-  const runFeature = async ({feature}) => {
-    await serial(runScenario, feature.children)
-  }
-
-  const runScenario = async (scenario) => {
-    console.log(chalk.green('  Scenario: ', scenario.name))
-    await browser.init({browserName: 'chrome'})
-    await serial(runStep, scenario.steps)
-    await browser.end()
-
-  }
-
-  const runStep = async (step) => {
-    const handler = R.find(([regex]) => R.test(regex, step.text), steplist)
-    if (!handler) {
-      console.log(chalk.yellow('No handler for ', step.keyword, step.text))
-      return;
-    }
-    await handler[1]()
-    await browser.chain(() => null)
-    console.log(chalk.green('    ', step.keyword + step.text))
-
-  }
-
-  return await serial(runFeature, features)
+export default () => {
+  const features = loadFeatures(filePattern)
+  return serial(runFeature, features)
+    .then(success, failure)
 }
