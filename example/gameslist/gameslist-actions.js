@@ -5,3 +5,8 @@ export const isCurrentPage = () =>
 
 export const hasGame = (title) =>
   browser.hasText('[data-test="game"]', title)
+
+const stuff = () => {
+  browser.assertText('#title', 'hello world')
+  browser.sleep(3000)
+}

@@ -1,7 +1,7 @@
 import fs from 'fs'
 import chalk from 'chalk'
 import {browser} from '../'
-import {curry, find, compose, test} from 'ramda'
+import {tail, curry, find, compose, test} from 'ramda'
 import {serial} from '../helpers'
 import loadStepDefs from './step-definitions'
 
@@ -13,14 +13,15 @@ const runScenario = curry(async (stepDefs, scenario) => {
   return browser.end()
 })
 
+const applyStepdef = ([regex, handler], {text}) =>
+  handler(...tail(regex.exec(text)))
+
 const runStep = curry(async (stepDefs, step) => {
   const stepDef = find(([regex]) => test(regex, step.text), stepDefs)
   if (!stepDef) {
-    console.log(chalk.yellow('No handler for ', step.keyword, step.text))
-    return;
+    return console.log(chalk.yellow('No handler for ', step.keyword, step.text))
   }
-  const [x, handler] = stepDef
-  await handler()
+  await applyStepdef(stepDef, step)
   await browser.chain(() => null)
   console.log(chalk.green('    ', step.keyword + step.text))
 })
