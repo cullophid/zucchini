@@ -1,6 +1,6 @@
 {
   "name": "zucchini",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "",
   "bin": {
     "zucchini": "bin/zucchini.js"
@@ -18,7 +18,7 @@
     "selenium:install": "selenium-standalone install",
     "selenium:start": "selenium-standalone start",
     "test": "mocha --compilers js:babel-core/register src/**/_spec/*.js",
-    "example" : "node bin/zucchini zucchini.config.js"
+    "example": "node bin/zucchini zucchini.config.js"
   },
   "author": "",
   "license": "ISC",
