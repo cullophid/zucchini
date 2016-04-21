@@ -1,9 +1,12 @@
+import assert from 'assert'
 import chalk from 'chalk'
-import {serial} from './helpers'
+import {serial, featureMatchesTags} from './helpers'
 import runFeature from './feature'
 import loadFeatures from './load-features'
+import path from 'path'
+import defaults from './default-config'
+import {filter, curry, any} from 'ramda'
 
-const filePattern = process.argv[2]
 
 const success = () =>
   console.log(chalk.green('\n\nAll Tests Passed'))
@@ -15,8 +18,17 @@ const failure = async (err) => {
   process.exit(1)
 }
 
+const loadConfig = (configPath) => {
+  const config = require(path.join(process.cwd(), configPath))
+  return config.default ? config.default : config
+}
+
+
 export default () => {
-  const features = loadFeatures(filePattern)
-  return serial(runFeature, features)
+  const config = {...defaults, ...loadConfig(process.argv[2])}
+  const _features = loadFeatures(config.featureFiles)
+  assert(_features.length > 0, `Could not fund any feature files: ${config.featureFiles}`)
+  const features = filter(featureMatchesTags(config.tags), _features)
+  return serial(runFeature(config), features)
     .then(success, failure)
 }

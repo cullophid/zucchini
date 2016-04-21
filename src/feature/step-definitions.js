@@ -1,13 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import {init, split, join, append, compose} from 'ramda'
-import {log} from '../helpers'
+import {joinPath} from '../helpers'
 
 // String -> String
-const joinPath = (p) => path.join(process.cwd(), p)
-
-// String -> String
-const getStepDefPath = compose(joinPath, join('.'), append('js'), init, split('.'))
+const getStepDefPath = compose(joinPath(process.cwd()), join('.'), append('js'), init, split('.'))
 
 
 const asArray = (e) => {

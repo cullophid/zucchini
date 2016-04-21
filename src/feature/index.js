@@ -1,8 +1,8 @@
 import fs from 'fs'
 import chalk from 'chalk'
 import {browser} from '../'
-import {tail, curry, find, compose, test} from 'ramda'
-import {serial} from '../helpers'
+import {tail, curry, find, test, filter} from 'ramda'
+import {serial, matchesTags} from '../helpers'
 import loadStepDefs from './step-definitions'
 
 const runScenario = curry(async (stepDefs, scenario) => {
@@ -26,7 +26,8 @@ const runStep = curry(async (stepDefs, step) => {
   console.log(chalk.green('    ', step.keyword + step.text))
 })
 
-export default async ([featurePath, {feature}]) => {
+export default curry(async (config, [featurePath, {feature}]) => {
   const stepDefs = loadStepDefs(featurePath)
-  return serial(runScenario(stepDefs), feature.children)
-}
+  const scenarios = filter(matchesTags(config.tags), feature.children)
+  return serial(runScenario(stepDefs), scenarios)
+})
