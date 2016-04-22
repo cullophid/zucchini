@@ -7,6 +7,8 @@ import path from 'path'
 import defaults from './default-config'
 import {filter, curry, any} from 'ramda'
 
+import {config} from './'
+
 
 const success = () =>
   console.log(chalk.green('\n\nAll Tests Passed'))
@@ -18,14 +20,7 @@ const failure = async (err) => {
   process.exit(1)
 }
 
-const loadConfig = (configPath) => {
-  const config = require(path.join(process.cwd(), configPath))
-  return config.default ? config.default : config
-}
-
-
 export default () => {
-  const config = {...defaults, ...loadConfig(process.argv[2])}
   const _features = loadFeatures(config.featureFiles)
   assert(_features.length > 0, `Could not fund any feature files: ${config.featureFiles}`)
   const features = filter(featureMatchesTags(config.tags), _features)
