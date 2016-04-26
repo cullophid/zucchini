@@ -7,11 +7,11 @@ export const log = (key) => (value) => {
 }
 
 export const matchesTags = curry((selectedTags, {tags}) => {
-  if (isEmpty(selectedTags)) return true
-  const blacklist = filter(test(/^~/), selectedTags)
-  const whitelist = difference(selectedTags, blacklist)
+  const _blacklist = filter(test(/^~/), selectedTags)
+  const whitelist = difference(selectedTags, _blacklist)
+  const blacklist = map(tail, _blacklist)
 
-  return all(({name}) => !contains(name, map(tail, blacklist)), tags)
+  return all(({name}) => !contains(name, blacklist), tags)
     && (isEmpty(whitelist) || any(({name}) => contains(name, whitelist) , tags))
 })
 

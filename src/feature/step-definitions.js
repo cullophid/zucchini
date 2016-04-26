@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import {init, split, join, append, compose} from 'ramda'
 import {joinPath} from '../helpers'
-
 // String -> String
 const getStepDefPath = compose(joinPath(process.cwd()), join('.'), append('js'), init, split('.'))
 

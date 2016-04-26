@@ -19,7 +19,7 @@ const applyStepdef = ([regex, handler], {text}) =>
 const runStep = curry(async (stepDefs, step) => {
   const stepDef = find(([regex]) => test(regex, step.text), stepDefs)
   if (!stepDef) {
-    return console.log(chalk.yellow('No handler for ', step.keyword, step.text))
+    return console.log(chalk.yellow('No step definition for ', step.keyword, step.text))
   }
   await applyStepdef(stepDef, step)
   await browser.chain(() => null)

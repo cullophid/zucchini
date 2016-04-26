@@ -1,13 +1,13 @@
 import assert from 'assert'
 import chalk from 'chalk'
 import {serial, featureMatchesTags} from './helpers'
-import runFeature from './feature'
 import loadFeatures from './load-features'
 import path from 'path'
 import defaults from './default-config'
 import {filter, curry, any} from 'ramda'
 
 import {config} from './'
+import runFeature from './feature'
 
 
 const success = () =>
