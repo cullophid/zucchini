@@ -48,6 +48,6 @@
     "selenium-standalone": "^4.7.2",
     "simple-promisify": "^1.0.1",
     "webdriverio": "^4.0.5",
-    "zucchini-webdriver": "2.0.2"
+    "zucchini-webdriver": "2.0.4"
   }
 }
